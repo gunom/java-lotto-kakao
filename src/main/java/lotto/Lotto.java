@@ -9,9 +9,9 @@ public class Lotto {
         this.lottoNums = lottoNums;
     }
 
-    public LottoResult matchNumber(LottoNumber lottoNumber) {
-        int winCount = (int) lottoNumber.getWinningNumber().stream().filter(lottoNums::contains).count();
-        boolean hasBonus = lottoNums.contains(lottoNumber.getBonusNumber());
+    public LottoResult matchNumber(WinningNumber winningNumber) {
+        int winCount = (int) winningNumber.getLottoNumbers().stream().filter(lottoNums::contains).count();
+        boolean hasBonus = lottoNums.contains(winningNumber.getBonusNumber());
 
         return LottoResult.getResult(winCount, hasBonus);
     }

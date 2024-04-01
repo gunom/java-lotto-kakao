@@ -12,7 +12,7 @@ public class LottoTest {
     void matchWithWinningNumberTest() {
         List<Integer> winningNumber = List.of(1, 2, 3, 4, 5, 6);
         int bonusNumber = 7;
-        LottoNumber lottoNumber = new LottoNumber(
+        WinningNumber lottoNumber = new WinningNumber(
                 winningNumber, bonusNumber
         );
 
@@ -25,7 +25,7 @@ public class LottoTest {
     void matchWithFiveMatch() {
         List<Integer> winningNumber = List.of(1, 2, 3, 4, 5, 6);
         int bonusNumber = 7;
-        LottoNumber lottoNumber = new LottoNumber(
+        WinningNumber lottoNumber = new WinningNumber(
                 winningNumber, bonusNumber
         );
 
@@ -38,7 +38,7 @@ public class LottoTest {
     void matchLooser() {
         List<Integer> winningNumber = List.of(1, 2, 3, 4, 5, 6);
         int bonusNumber = 7;
-        LottoNumber lottoNumber = new LottoNumber(
+        WinningNumber lottoNumber = new WinningNumber(
                 winningNumber, bonusNumber
         );
 

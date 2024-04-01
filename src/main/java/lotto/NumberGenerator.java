@@ -1,14 +1,10 @@
 package lotto;
 
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class NumberGenerator {
-
-//    private static final int MIN_LOTTO_NUMBER = 1;
-//    private static final int MAX_LOTTO_NUMBER = 45;
-//    private static final List<Integer> CANDIDATE_NUMBERS = IntStream.range(MIN_LOTTO_NUMBER, MAX_LOTTO_NUMBER + 1).boxed().collect(Collectors.toList());
 
     public List<Integer> generateNumbers(List<Integer> candidateNumbers, int size) {
         if (size < 0) {

@@ -3,19 +3,21 @@ package lotto;
 import java.util.Arrays;
 
 public enum LottoResult {
-    SIX_MATCH(6, false),
-    FIVE_AND_BONUS_MATCH(5, true),
-    FIVE_MATCH(5, false),
-    FOUR_MATCH(4, false),
-    THREE_MATCH(3, false),
-    BLANK_MATCH(-1, false);
+    SIX_MATCH(6, false, 2_000_000_000),
+    FIVE_AND_BONUS_MATCH(5, true, 30_000_000),
+    FIVE_MATCH(5, false, 1_500_000),
+    FOUR_MATCH(4, false, 50_000),
+    THREE_MATCH(3, false, 5_000),
+    BLANK_MATCH(-1, false, 0);
 
     private final int matchCount;
     private final boolean bonus;
+    private final int prize;
 
-    LottoResult(int matchCount, boolean bonus) {
+    LottoResult(int matchCount, boolean bonus, int prize) {
         this.matchCount = matchCount;
         this.bonus = bonus;
+        this.prize = prize;
     }
 
     private boolean match(int winCount, boolean hasBonus) {
@@ -27,5 +29,9 @@ public enum LottoResult {
                 filter(lottoResult -> lottoResult.match(winCount, hasBonus)).
                 findFirst().
                 orElse(LottoResult.BLANK_MATCH);
+    }
+
+    public int getPrize() {
+        return prize;
     }
 }
