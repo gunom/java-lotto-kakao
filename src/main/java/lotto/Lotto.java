@@ -1,5 +1,6 @@
 package lotto;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Lotto {
@@ -14,5 +15,9 @@ public class Lotto {
         boolean hasBonus = lottoNums.contains(winningNumber.getBonusNumber());
 
         return LottoResult.getResult(winCount, hasBonus);
+    }
+
+    public List<Integer> getLottoNums() {
+        return Collections.unmodifiableList(lottoNums);
     }
 }

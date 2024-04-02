@@ -1,6 +1,7 @@
 package lotto;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public enum LottoResult {
     SIX_MATCH(6, false, 2_000_000_000),
@@ -34,4 +35,17 @@ public enum LottoResult {
     public int getPrize() {
         return prize;
     }
+
+    public int getMatchCount() {
+        return matchCount;
+    }
+
+    public boolean isNotBlank() {
+        return this != BLANK_MATCH;
+    }
+
+    public static Comparator<LottoResult> comparator() {
+        return Comparator.comparing(LottoResult::getMatchCount).thenComparingInt(result -> result.bonus ? 0 : 1);
+    }
+
 }
