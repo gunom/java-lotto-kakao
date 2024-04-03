@@ -12,6 +12,7 @@ public class LottoGame {
     public static final int LOTTO_NUMBERS_LENGTH = 6;
 
     private final List<Lotto> lottos;
+
     public LottoGame(int budget, NumberGenerator numberGenerator) {
         int numToBuy = budget / LOTTO_PRICE;
         this.lottos = IntStream

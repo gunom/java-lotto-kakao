@@ -4,12 +4,12 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public enum LottoResult {
-    SIX_MATCH(6, false, 2_000_000_000),
-    FIVE_AND_BONUS_MATCH(5, true, 30_000_000),
-    FIVE_MATCH(5, false, 1_500_000),
-    FOUR_MATCH(4, false, 50_000),
-    THREE_MATCH(3, false, 5_000),
-    BLANK_MATCH(-1, false, 0);
+    FIRST_PRIZE(6, false, 2_000_000_000),
+    SECOND_PRIZE(5, true, 30_000_000),
+    THIRD_PRIZE(5, false, 1_500_000),
+    FORTH_PRIZE(4, false, 50_000),
+    FIFTH_PRIZE(3, false, 5_000),
+    LOOSE(-1, false, 0);
 
     private final int matchCount;
     private final boolean bonus;
@@ -21,15 +21,18 @@ public enum LottoResult {
         this.prize = prize;
     }
 
-    private boolean match(int winCount, boolean hasBonus) {
-        return this.matchCount == winCount && this.bonus == hasBonus;
+    private boolean matchWithCount(int winCount, boolean hasBonus) {
+        if (this == SECOND_PRIZE) {
+            return this.matchCount == winCount && this.bonus == hasBonus;
+        }
+        return this.matchCount == winCount;
     }
 
     public static LottoResult getResult(int winCount, boolean hasBonus) {
-        return Arrays.stream(LottoResult.values()).
-                filter(lottoResult -> lottoResult.match(winCount, hasBonus)).
-                findFirst().
-                orElse(LottoResult.BLANK_MATCH);
+        return Arrays.stream(LottoResult.values())
+                .filter(lottoResult -> lottoResult.matchWithCount(winCount, hasBonus))
+                .findFirst()
+                .orElse(LottoResult.LOOSE);
     }
 
     public int getPrize() {
@@ -41,7 +44,7 @@ public enum LottoResult {
     }
 
     public boolean isNotBlank() {
-        return this != BLANK_MATCH;
+        return this != LOOSE;
     }
 
     public static Comparator<LottoResult> comparator() {
