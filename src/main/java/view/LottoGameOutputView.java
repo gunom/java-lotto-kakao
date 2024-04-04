@@ -1,23 +1,24 @@
 package view;
 
 import lotto.GameResult;
+import lotto.Lotto;
 import lotto.LottoResult;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Comparator;
 
 public class LottoGameOutputView {
     private static final String DISPLAY_NUMBER_OF_LOTTOS_MSG_FORMAT = "%d개를 구매했습니다.\n";
     private static final String DISPLAY_RESULT_HEADER_MSG = "당첨 통계\n---------";
     private static final String DISPLAY_RESULT_LOTTO_MSG_FORMAT = "%s (%d원) - %d개";
-    private static final String DISPLAY_RESULT_PROFIT_RATE_MSG = "총 수익률은 %,.2f입니다.\n";
+    private static final String DISPLAY_RESULT_PROFIT_RATE_MSG = "총 수익률은 %,.2f입니다. (기준이 1이기 때문에 결과적으로 손해라는 의미임)\n";
 
     public static void displayNumberOfLottos(int numOfLottos) {
         System.out.printf(DISPLAY_NUMBER_OF_LOTTOS_MSG_FORMAT, numOfLottos);
     }
 
-    public static void displayLotto(List<Integer> lottoNums) {
-        System.out.println(lottoNums);
+    public static void displayLotto(Lotto lottoNums) {
+        System.out.println(lottoNums.getLottoNumbers());
     }
 
     public static void displayResultHeader() {
@@ -26,8 +27,8 @@ public class LottoGameOutputView {
 
     public static void displayResultLotto(GameResult gameResult) {
         Arrays.stream(LottoResult.values())
-                .sorted(LottoResult.comparator())
-                .filter(LottoResult::isNotBlank)
+                .sorted(Comparator.comparingInt(LottoResult::getPrize).reversed())
+                .filter(LottoResult::isWinning)
                 .forEach(lottoResult -> System.out.println(makeLottoResult(lottoResult, gameResult.getResultCount(lottoResult))));
     }
 

@@ -24,9 +24,7 @@ public class LottoGameController {
     private static void displayPurchasedLottos(LottoGame lottoGame) {
         List<Lotto> lottos = lottoGame.getLottos();
         LottoGameOutputView.displayNumberOfLottos(lottos.size());
-        lottos.stream()
-                .map(Lotto::getLottoNumbers)
-                .forEach(LottoGameOutputView::displayLotto);
+        lottos.forEach(LottoGameOutputView::displayLotto);
     }
 
     private static GameResult matchWinningNumber(LottoGame lottoGame) {

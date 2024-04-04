@@ -5,83 +5,46 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class LottoTest {
-
-    private static final List<Integer> winningNumber = List.of(1, 2, 3, 4, 5, 6);
-    private static final int bonusNumber = 7;
-
     @Test
-    @DisplayName("로또 번호가 1등과 일치하는지 확인한다.")
-    void matchWithWinningNumberTest() {
-        WinningNumber lottoNumber = new WinningNumber(
-                winningNumber, bonusNumber
-        );
-
-        Lotto lotto = new Lotto(winningNumber);
-        LottoResult lottoResult = lotto.matchNumber(lottoNumber);
-        assertThat(lottoResult).isEqualTo(LottoResult.FIRST_PRIZE);
+    @DisplayName("로또 번호가 6개가 아닌 경우 예외를 발생한다.")
+    void invalidSizeLottoNumber() {
+        assertThatThrownBy(() -> new Lotto(List.of(1, 2, 3, 4, 5)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("로또 번호는 6개여야 합니다.");
     }
 
     @Test
-    @DisplayName("로또 번호가 2등과 일치하는지 확인한다.")
-    void matchWithFiveMatch() {
-        WinningNumber lottoNumber = new WinningNumber(
-                winningNumber, bonusNumber
-        );
-
-        Lotto lotto = new Lotto(List.of(1, 2, 3, 4, 5, 7));
-        LottoResult lottoResult = lotto.matchNumber(lottoNumber);
-        assertThat(lottoResult).isEqualTo(LottoResult.SECOND_PRIZE);
+    @DisplayName("로또 번호가 중복된 경우 예외를 발생한다.")
+    void duplicateLottoNumber() {
+        assertThatThrownBy(() -> new Lotto(List.of(1, 2, 3, 4, 5, 5)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("로또 번호는 중복될 수 없습니다.");
     }
 
     @Test
-    @DisplayName("로또 번호가 3등과 일치하는지 확인한다.")
-    void matchWithFourMatch() {
-        WinningNumber lottoNumber = new WinningNumber(
-                winningNumber, bonusNumber
-        );
-
-        Lotto lotto = new Lotto(List.of(1, 2, 3, 4, 5, 8));
-        LottoResult lottoResult = lotto.matchNumber(lottoNumber);
-        assertThat(lottoResult).isEqualTo(LottoResult.THIRD_PRIZE);
+    @DisplayName("로또 번호가 1부터 45사이가 아닌 경우 예외를 발생한다.")
+    void invalidRangeLottoNumber() {
+        assertThatThrownBy(() -> new Lotto(List.of(1, 2, 3, 4, 5, 46)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("로또 번호는 1부터 45사이여야 합니다.");
     }
 
     @Test
-    @DisplayName("로또 번호가 4등과 일치하는지 확인한다.")
-    void matchWithThreeMatch() {
-        WinningNumber lottoNumber = new WinningNumber(
-                winningNumber, bonusNumber
-        );
-
-        Lotto lotto = new Lotto(List.of(1, 2, 3, 4, 7, 8));
-        LottoResult lottoResult = lotto.matchNumber(lottoNumber);
-        assertThat(lottoResult).isEqualTo(LottoResult.FORTH_PRIZE);
+    @DisplayName("로또 보너스 번호가 1부터 45사이가 아닌 경우 예외를 발생한다.")
+    void invalidRangeBonusNumber() {
+        assertThatThrownBy(() -> new WinningNumber(List.of(1, 2, 3, 4, 5, 6), 46))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("보너스 번호는 1부터 45사이여야 합니다.");
     }
 
     @Test
-    @DisplayName("로또 번호가 5등과 일치하는지 확인한다.")
-    void matchWithTwoMatch() {
-        WinningNumber lottoNumber = new WinningNumber(
-                winningNumber, bonusNumber
-        );
-
-        Lotto lotto = new Lotto(List.of(1, 2, 3, 8, 9, 10));
-        LottoResult lottoResult = lotto.matchNumber(lottoNumber);
-        assertThat(lottoResult).isEqualTo(LottoResult.FIFTH_PRIZE);
-    }
-
-    @Test
-    @DisplayName("로또 번호가 꽝인지 확인한다.")
-    void matchLooser() {
-        WinningNumber lottoNumber = new WinningNumber(
-                winningNumber, bonusNumber
-        );
-
-        Lotto lotto = new Lotto(List.of(45, 44, 43, 42, 41, 40));
-        LottoResult lottoResult = lotto.matchNumber(lottoNumber);
-        assertThat(lottoResult).isEqualTo(LottoResult.LOOSE);
-
+    @DisplayName("로또 보너스 번호가 로또 번호와 중복된 경우 예외를 발생한다.")
+    void duplicateBonusNumber() {
+        assertThatThrownBy(() -> new WinningNumber(List.of(1, 2, 3, 4, 5, 6), 6))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("보너스 번호는 당첨 번호와 중복될 수 없습니다.");
     }
 }

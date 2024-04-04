@@ -1,36 +1,29 @@
 package lotto;
 
 import java.util.Arrays;
-import java.util.Comparator;
+import java.util.function.BiPredicate;
 
 public enum LottoResult {
-    FIRST_PRIZE(6, false, 2_000_000_000),
-    SECOND_PRIZE(5, true, 30_000_000),
-    THIRD_PRIZE(5, false, 1_500_000),
-    FORTH_PRIZE(4, false, 50_000),
-    FIFTH_PRIZE(3, false, 5_000),
-    LOOSE(-1, false, 0);
+    FIRST_PRIZE(6, 2_000_000_000, (count, bonus) -> count == 6),
+    SECOND_PRIZE(5, 30_000_000, (count, bonus) -> count == 5 && bonus),
+    THIRD_PRIZE(5, 1_500_000, (count, bonus) -> count == 5 && !bonus),
+    FORTH_PRIZE(4, 50_000, (count, bonus) -> count == 4),
+    FIFTH_PRIZE(3, 5_000, (count, bonus) -> count == 3),
+    LOOSE(-1, 0, (count, bonus) -> false);
 
     private final int matchCount;
-    private final boolean bonus;
     private final int prize;
+    private final BiPredicate<Integer, Boolean> matchPredicate;
 
-    LottoResult(int matchCount, boolean bonus, int prize) {
+    LottoResult(int matchCount, int prize, BiPredicate<Integer, Boolean> matchPredicate) {
         this.matchCount = matchCount;
-        this.bonus = bonus;
         this.prize = prize;
-    }
-
-    private boolean matchWithCount(int winCount, boolean hasBonus) {
-        if (this == SECOND_PRIZE) {
-            return this.matchCount == winCount && this.bonus == hasBonus;
-        }
-        return this.matchCount == winCount;
+        this.matchPredicate = matchPredicate;
     }
 
     public static LottoResult getResult(int winCount, boolean hasBonus) {
         return Arrays.stream(LottoResult.values())
-                .filter(lottoResult -> lottoResult.matchWithCount(winCount, hasBonus))
+                .filter(lottoResult -> lottoResult.matchPredicate.test(winCount, hasBonus))
                 .findFirst()
                 .orElse(LottoResult.LOOSE);
     }
@@ -43,12 +36,7 @@ public enum LottoResult {
         return matchCount;
     }
 
-    public boolean isNotBlank() {
+    public boolean isWinning() {
         return this != LOOSE;
     }
-
-    public static Comparator<LottoResult> comparator() {
-        return Comparator.comparing(LottoResult::getMatchCount).thenComparingInt(result -> result.bonus ? 0 : 1);
-    }
-
 }
