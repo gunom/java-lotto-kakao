@@ -30,8 +30,8 @@ public class LottoGameTest {
         LottoGame game = new LottoGame(budget, fakeGenerator);
         WinningLotto winningLotto = new WinningLotto(
                 new Lotto(Stream.of(1, 2, 3, 4, 5, 6)
-                        .map(LottoNumber::new)
-                        .collect(Collectors.toList())), new LottoNumber(7));
+                        .map(LottoNumber::of)
+                        .collect(Collectors.toList())), LottoNumber.of(7));
 
         GameResult results = game.getGameResult(winningLotto);
         assertThat(results.getResultCount(LottoResult.FIFTH_PRIZE)).isEqualTo(1);

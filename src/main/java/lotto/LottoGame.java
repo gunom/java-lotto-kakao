@@ -11,7 +11,6 @@ public class LottoGame {
     private static final List<Integer> CANDIDATE_NUMBERS = IntStream.range(MIN_LOTTO_NUMBER, MAX_LOTTO_NUMBER + 1).boxed().collect(Collectors.toList());
     public static final int LOTTO_NUMBERS_LENGTH = 6;
     private final List<Lotto> lottos;
-    private static final LottoNumbers lottoNumbers = new LottoNumbers();
 
     public LottoGame(int budget, NumberGenerator numberGenerator) {
         int numToBuy = budget / LOTTO_PRICE;
@@ -45,12 +44,12 @@ public class LottoGame {
         return (double) totalPrize / totalPay;
     }
 
-    private Lotto generateLotto(List<Integer> winningLottoNumber) {
-        return new Lotto(lottoNumbers.getLottoNumbers(winningLottoNumber));
+    private Lotto generateLotto(List<Integer> lottoNumber) {
+        return new Lotto(lottoNumber.stream().map(LottoNumber::of).collect(Collectors.toList()));
     }
 
     public WinningLotto generateWinningLotto(List<Integer> winningLottoNumber, int bonusNumber) {
         Lotto winningLotto = generateLotto(winningLottoNumber);
-        return new WinningLotto(winningLotto, lottoNumbers.getLottoNumber(bonusNumber));
+        return new WinningLotto(winningLotto, LottoNumber.of(bonusNumber));
     }
 }
