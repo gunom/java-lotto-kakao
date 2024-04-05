@@ -27,7 +27,7 @@ public class LottoGameOutputView {
 
     public static void displayResultLotto(GameResult gameResult) {
         Arrays.stream(LottoResult.values())
-                .sorted(Comparator.comparingInt(LottoResult::getPrize).reversed())
+                .sorted(Comparator.comparingInt(LottoResult::getPrize))
                 .filter(LottoResult::isWinning)
                 .forEach(lottoResult -> System.out.println(makeLottoResult(lottoResult, gameResult.getResultCount(lottoResult))));
     }

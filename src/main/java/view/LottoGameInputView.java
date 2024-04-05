@@ -1,8 +1,5 @@
 package view;
 
-import lotto.Lotto;
-import lotto.WinningNumber;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -53,10 +50,8 @@ public class LottoGameInputView {
         return scanner.nextLine();
     }
 
-    public static WinningNumber getWinningNumber() {
-        List<Integer> winningLottoNumbers = getWinningLottoNumbers();
-        int winningBonusNumber = getWinningBonusNumber(winningLottoNumbers);
-        return new WinningNumber(new Lotto(winningLottoNumbers), winningBonusNumber);
+    public static List<Integer> getWinningNumber() {
+        return getWinningLottoNumbers();
     }
 
     private static List<Integer> getWinningLottoNumbers() {
@@ -85,6 +80,10 @@ public class LottoGameInputView {
             System.out.println("[ERROR] 숫자를 입력해주세요.");
             return inputIntList(inputMsg);
         }
+    }
+
+    public static int getBonusNumber(List<Integer> winningLottoNumbers) {
+        return getWinningBonusNumber(winningLottoNumbers);
     }
 
     private static int getWinningBonusNumber(List<Integer> winningLottoNumbers) {

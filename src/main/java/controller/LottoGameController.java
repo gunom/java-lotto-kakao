@@ -28,8 +28,14 @@ public class LottoGameController {
     }
 
     private static GameResult matchWinningNumber(LottoGame lottoGame) {
-        WinningNumber winningNumber = LottoGameInputView.getWinningNumber();
-        return lottoGame.getGameResult(winningNumber);
+        WinningLotto winningLotto = getWinningNumber(lottoGame);
+        return lottoGame.getGameResult(winningLotto);
+    }
+
+    private static WinningLotto getWinningNumber(LottoGame lottoGame) {
+        List<Integer> winningLottoNumber = LottoGameInputView.getWinningNumber();
+        int bonusNumber = LottoGameInputView.getBonusNumber(winningLottoNumber);
+        return lottoGame.generateWinningLotto(winningLottoNumber, bonusNumber);
     }
 
     private static void displayResult(GameResult gameResult) {

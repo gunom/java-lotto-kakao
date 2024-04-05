@@ -4,6 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,9 +28,12 @@ public class LottoGameTest {
                 List.of(7, 8, 9, 10, 11, 12)
         ));
         LottoGame game = new LottoGame(budget, fakeGenerator);
-        WinningNumber winningNumber = new WinningNumber(List.of(1, 2, 3, 4, 5, 6), 7);
-        GameResult results = game.getGameResult(winningNumber);
+        WinningLotto winningLotto = new WinningLotto(
+                new Lotto(Stream.of(1, 2, 3, 4, 5, 6)
+                        .map(LottoNumber::new)
+                        .collect(Collectors.toList())), new LottoNumber(7));
 
+        GameResult results = game.getGameResult(winningLotto);
         assertThat(results.getResultCount(LottoResult.FIFTH_PRIZE)).isEqualTo(1);
         assertThat(results.getProfitRate()).isEqualTo(2.5);
     }
