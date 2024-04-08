@@ -10,7 +10,7 @@ public class LottoGame {
     private static final int LOTTO_PRICE = 1_000;
     private static final int MIN_LOTTO_NUMBER = 1;
     private static final int MAX_LOTTO_NUMBER = 45;
-    private static final List<Integer> CANDIDATE_NUMBERS = IntStream.range(MIN_LOTTO_NUMBER, MAX_LOTTO_NUMBER + 1).boxed().collect(Collectors.toList());
+    private static final List<Integer> CANDIDATE_NUMBERS = IntStream.rangeClosed(MIN_LOTTO_NUMBER, MAX_LOTTO_NUMBER).boxed().collect(Collectors.toList());
     public static final int LOTTO_NUMBERS_LENGTH = 6;
     private final List<Lotto> lottos;
     private int manualLottoCount = 0;

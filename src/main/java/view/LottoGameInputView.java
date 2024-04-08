@@ -16,6 +16,9 @@ public class LottoGameInputView {
     private static final String INPUT_WINNING_BONUS_NUMBERS_MSG = "보너스 볼을 입력해 주세요.";
     private static final String INPUT_MANUAL_LOTTO_COUNT_MSG = "수동으로 구매할 로또 수를 입력해 주세요.";
     private static final String INPUT_MANUAL_LOTTO_NUMBERS_MSG = "수동으로 구매할 번호를 입력해 주세요.";
+    private static final Integer MIN_LOTTO_NUMBER = 1;
+    private static final Integer MAX_LOTTO_NUMBER = 45;
+    private static final Integer LOTTO_PRICE = 1_000;
 
     public static int getBudget() {
         return retryableInput(LottoGameInputView::inputBudget, LottoGameInputView::isValidBudget);
@@ -30,7 +33,7 @@ public class LottoGameInputView {
     }
 
     private static boolean isValidBudget(int budget) {
-        return budget >= 1_000;
+        return budget >= LOTTO_PRICE;
     }
 
     private static int inputBudget() {
@@ -99,7 +102,7 @@ public class LottoGameInputView {
     }
 
     private static boolean validateWinningBonusNumber(int winningBonusNumber, List<Integer> winningLottoNumber) {
-        boolean outBoundedBonusNumber = winningBonusNumber < 1 || winningBonusNumber > 45;
+        boolean outBoundedBonusNumber = winningBonusNumber < MIN_LOTTO_NUMBER || winningBonusNumber > MAX_LOTTO_NUMBER;
         boolean duplicatedBonusNumber = winningLottoNumber.contains(winningBonusNumber);
         return !outBoundedBonusNumber && !duplicatedBonusNumber;
     }
@@ -142,7 +145,7 @@ public class LottoGameInputView {
 
     private static boolean validateManualLottoCount(int budget, int manualLottoCount) {
         boolean isPositive = manualLottoCount > 0;
-        boolean isEnoughBudget = budget >= manualLottoCount * 1_000;
+        boolean isEnoughBudget = budget >= manualLottoCount * LOTTO_PRICE;
         return isPositive && isEnoughBudget;
     }
 

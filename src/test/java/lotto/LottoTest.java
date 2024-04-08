@@ -26,7 +26,7 @@ public class LottoTest {
                 .map(LottoNumber::of)
                 .collect(Collectors.toList())))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("로또 번호는 중복될 수 없습니다.");
+                .hasMessage("로또 번호는 중복되지 않아야 합니다.");
     }
 
     @Test
@@ -47,7 +47,7 @@ public class LottoTest {
                 .collect(Collectors.toList()));
         assertThatThrownBy(() -> new WinningLotto(lotto, LottoNumber.of(46)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("보너스 번호는 1부터 45사이여야 합니다.");
+                .hasMessage("로또 번호는 1부터 45사이여야 합니다.");
     }
 
     @Test

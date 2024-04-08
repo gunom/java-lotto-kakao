@@ -21,7 +21,7 @@ public class Lotto {
     }
 
     private static void isDuplicatedLottoNumber(List<LottoNumber> lottoNumbers) {
-        if (lottoNumbers.size() != LOTTO_NUMBER_SIZE) {
+        if (lottoNumbers.size() != new HashSet<>(lottoNumbers).size()) {
             throw new IllegalArgumentException("로또 번호는 중복되지 않아야 합니다.");
         }
     }
@@ -45,6 +45,6 @@ public class Lotto {
     }
 
     public List<Integer> getLottoNumbers() {
-        return lottoNumbers.stream().map(LottoNumber::getNumber).collect(Collectors.toUnmodifiableList());
+        return lottoNumbers.stream().map(LottoNumber::getNumber).collect(Collectors.toList());
     }
 }
